@@ -45,11 +45,6 @@ exports.getAllInfo = async (provider) => {
     }).catch((err) => {
         console.log("Error caught: ", err);
     });
-    await web3.eth.isMining().then((mine) => {
-        response.isMining = mine;
-    }).catch((err) => {
-        console.log("Error caught: ", err);
-    });
     await web3.eth.getHashrate().then((rate) => {
         response.HashRate = rate;
     }).catch((err) => {

@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const EthService = require('../services/eth.service');
 const EthTransactionRouter = require('./eth.transaction.routes');
-const EthTransactionService = require('../services/eth.transaction.service');
-
 
 router.get("/", (req, res) => {
     EthService.getAllInfo(req.headers.provider).then((response) => {
