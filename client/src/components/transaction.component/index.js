@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 
 import { Tabs, Tab, Paper, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
-import Accounts from '../accounts.component';
-import Network from '../network.component';
-import Transaction from '../transaction.component';
+
+import PendingTransaction from './PendingTransaction';
+import TransactionReceipt from './TransactionReceipt';
+import Transaction from './Transaction';
+import CreateTransaction from './CreateTransaction';
 
 const styles = (theme) => ({
     root: {
@@ -32,8 +34,7 @@ function TabPanel(props) {
     );
 }
 
-class NavTabs extends Component {
-
+class Transactions extends Component {
     constructor(props) {
         super(props);
 
@@ -71,31 +72,28 @@ class NavTabs extends Component {
                         textColor="primary"
                         centered
                     >
-                        <Tab label="Network" {...this.a11yProps(0)} />
-                        <Tab label="Admin" {...this.a11yProps(1)} />
-                        <Tab label="Accounts" {...this.a11yProps(2)} />
-                        <Tab label="Smart Contracts" {...this.a11yProps(3)} />
-                        <Tab label="Transactions" {...this.a11yProps(4)} />
+                        <Tab label="Pending Transactions" {...this.a11yProps(0)} />
+                        <Tab label="Transaction Receipt" {...this.a11yProps(1)} />
+                        <Tab label="Transaction Info" {...this.a11yProps(2)} />
+                        <Tab label="Send Transaction" {...this.a11yProps(3)} />
                     </Tabs>
                 </Paper>
                 <TabPanel value={this.state.value} index={0}>
-                    <Network />
+                    <PendingTransaction />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
-                    Admin
+                    <TransactionReceipt />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={2}>
-                    <Accounts />
-                </TabPanel>
-                <TabPanel value={this.state.value} index={3}>
-                    Smart Contracts
-                </TabPanel>
-                <TabPanel value={this.state.value} index={4}>
                     <Transaction />
                 </TabPanel>
-             </div>
+                <TabPanel value={this.state.value} index={3}>
+                    <CreateTransaction />
+                </TabPanel>
+            </div>
         );
     }
+
 }
 
-export default withStyles(styles, {withTheme: true})(NavTabs);
+export default withStyles(styles, {withTheme: true})(Transactions);
