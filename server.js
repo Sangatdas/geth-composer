@@ -8,6 +8,7 @@ const ethRouter = require('./routes/eth.routes');
 const personalRouter = require('./routes/personal.routes');
 const apiRouter = require('./routes/api.routes');
 const adminRouter = require('./routes/admin.route');
+const miningRouter = require('./routes/miner.routes');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -16,6 +17,7 @@ app.use('/eth/', ethRouter);
 app.use('/personal/', personalRouter);
 app.use('/api/', apiRouter);
 app.use('/admin', adminRouter)
+// app.use('/mining/', miningRouter);
 
 const PORT = 5000 || process.env.PORT;
 
