@@ -16,4 +16,19 @@ router.get("/accounts/", (req, res) => {
     });
 });
 
+router.get("/admin/", (req, res) => {
+    ApiService.getNodeInfo(req.headers.provider).then((response) => {
+        if (response) {
+            console.log(response);
+            res.status(200).json(response);
+        } else {
+            console.log(response);
+            res.status(400).json({error: "Unable to retrieve admin info."});
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
+
 module.exports = router;

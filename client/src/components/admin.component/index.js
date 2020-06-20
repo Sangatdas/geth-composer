@@ -1,19 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import { Tabs, Tab, Paper, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 
-import Accounts from '../accounts.component';
-import Network from '../network.component';
-import Transaction from '../transaction.component';
-import Admin from '../admin.component';
+import axios from 'axios';
 
 const styles = (theme) => ({
     root: {
       flexGrow: 1,
-    },
-    tabpanel: {
-        padding: theme.spacing(0)
     }
 });
 
@@ -29,7 +23,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-            <Box>
+            <Box p={3}>
                 <Typography>{children}</Typography>
             </Box>
             )}
@@ -37,7 +31,8 @@ function TabPanel(props) {
     );
 }
 
-class NavTabs extends Component {
+
+class Admin extends Component {
 
     constructor(props) {
         super(props);
@@ -51,8 +46,8 @@ class NavTabs extends Component {
 
     a11yProps(index) {
         return {
-          id: `simple-tab-${index}`,
-          'aria-controls': `simple-tabpanel-${index}`,
+            id: `simple-tab-${index}`,
+            'aria-controls': `simple-tabpanel-${index}`,
         };
     }
 
@@ -76,27 +71,19 @@ class NavTabs extends Component {
                         textColor="primary"
                         centered
                     >
-                        <Tab label="Network" {...this.a11yProps(0)} />
-                        <Tab label="Admin" {...this.a11yProps(1)} />
-                        <Tab label="Accounts" {...this.a11yProps(2)} />
-                        <Tab label="Transactions" {...this.a11yProps(3)} />
+                        <Tab label="Node Information" {...this.a11yProps(0)} />
+                        <Tab label="Peers" {...this.a11yProps(1)} />
                     </Tabs>
                 </Paper>
                 <TabPanel value={this.state.value} index={0}>
-                    <Network />
+                    Node Info
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
-                    <Admin />
+                    Peers
                 </TabPanel>
-                <TabPanel value={this.state.value} index={2}>
-                    <Accounts />
-                </TabPanel>
-                <TabPanel value={this.state.value} index={3} className={classes.tabpanel}>
-                    <Transaction />
-                </TabPanel>
-             </div>
+            </div>
         );
     }
 }
 
-export default withStyles(styles, {withTheme: true})(NavTabs);
+export default withStyles(styles, {withTheme: true})(Admin);

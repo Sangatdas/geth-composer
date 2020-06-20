@@ -71,6 +71,7 @@ class Transactions extends Component {
                         aria-label="nav tabs example"
                         textColor="primary"
                         centered
+                        style={{margin:'0'}}
                     >
                         <Tab label="Pending Transactions" {...this.a11yProps(0)} />
                         <Tab label="Transaction Receipt" {...this.a11yProps(1)} />
