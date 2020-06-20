@@ -3,13 +3,16 @@ import React, { Component } from 'react';
 import Search from '../commons/search';
 
 import axios from 'axios';
+import { Paper, Typography } from '@material-ui/core';
 
 class TransactionReceipt extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tx: ''
+            hash: '',
+            tx: {},
+            searchClicked: false
         }
 
         this.handleSearchClick = this.handleSearchClick.bind(this);
@@ -22,9 +25,12 @@ class TransactionReceipt extends Component {
           baseURL: 'http://localhost:5000/eth/transaction/',
           timeout: 5000,
           headers: {'provider': 'http://localhost:8545'}
-        }).get(this.state.tx+"/receipt/")
+        }).get(this.state.hash+"/receipt/")
           .then((response) => {
-            console.log(response);
+            this.setState({
+                tx: response.data,
+                searchClicked: true
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -33,13 +39,23 @@ class TransactionReceipt extends Component {
 
     setValue(value) {
         this.setState({
-            tx: value
+            hash: value
         })
     }
 
     render() {
         return(
-            <Search handleSearchClick={this.handleSearchClick} setValue={this.setValue} value={this.state.tx}/>
+            <div>
+                <Search handleSearchClick={this.handleSearchClick} setValue={this.setValue} value={this.state.hash}/>
+                <Paper style={{margin: '3%'}}>
+                    {this.state.searchClicked?(
+                        this.state.tx?(
+                        <Typography>{this.state.tx.blockHash}</Typography>
+                        ):<Typography variant="h2" align='center'>
+                        <p>No Transactions found. Please try again with a different hash.</p>
+                        </Typography>):null}
+                </Paper>
+            </div>
         );
     }
 

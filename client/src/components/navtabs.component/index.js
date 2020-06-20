@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Tabs, Tab, Paper, Box, Typography } from '@material-ui/core';
+import { Tabs, Tab, AppBar, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 
 import Accounts from '../accounts.component';
@@ -11,10 +11,8 @@ import Admin from '../admin.component';
 const styles = (theme) => ({
     root: {
       flexGrow: 1,
+      backgroundColor: theme.palette.background.paper,
     },
-    tabpanel: {
-        padding: theme.spacing(0)
-    }
 });
 
 function TabPanel(props) {
@@ -34,6 +32,18 @@ function TabPanel(props) {
             </Box>
             )}
         </div>
+    );
+}
+
+function LinkTab(props) {
+    return (
+      <Tab
+        component="a"
+        onClick={(event) => {
+          event.preventDefault();
+        }}
+        {...props}
+      />
     );
 }
 
@@ -66,22 +76,21 @@ class NavTabs extends Component {
         const { classes } = this.props;
 
         return (
-            <div>
-                <Paper className={classes.root} position="static">
+            <div className={classes.root} >
+                <AppBar position="static" >
                     <Tabs
                         value={this.state.value}
                         onChange={this.handleChange}
                         variant="fullWidth"
                         aria-label="nav tabs example"
-                        textColor="primary"
                         centered
                     >
-                        <Tab label="Network" {...this.a11yProps(0)} />
-                        <Tab label="Admin" {...this.a11yProps(1)} />
-                        <Tab label="Accounts" {...this.a11yProps(2)} />
-                        <Tab label="Transactions" {...this.a11yProps(3)} />
+                        <LinkTab label="Network" href='/network/' {...this.a11yProps(0)} />
+                        <LinkTab label="Admin" href='/admin/' {...this.a11yProps(1)} />
+                        <LinkTab label="Accounts" href='/accounts/' {...this.a11yProps(2)} />
+                        <LinkTab label="Transactions" href='/transactions/' {...this.a11yProps(3)} />
                     </Tabs>
-                </Paper>
+                </AppBar>
                 <TabPanel value={this.state.value} index={0}>
                     <Network />
                 </TabPanel>
@@ -91,7 +100,7 @@ class NavTabs extends Component {
                 <TabPanel value={this.state.value} index={2}>
                     <Accounts />
                 </TabPanel>
-                <TabPanel value={this.state.value} index={3} className={classes.tabpanel}>
+                <TabPanel value={this.state.value} index={3}>
                     <Transaction />
                 </TabPanel>
              </div>

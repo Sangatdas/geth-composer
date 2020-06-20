@@ -5,7 +5,7 @@ router.get("/:txHash", (req, res) => {
     EthTransactionService.getTransaction(req.params.txHash, req.headers.provider).then((tx) => {
         if (tx) {
             console.log("Transaction: ", tx);
-            res.status(200).json({Transaction: tx});
+            res.status(200).json(tx);
         } else {
             console.log("Failed to retrieve transaction for " + req.params.txHash + ". It may not be present.");
             res.status(404).json({error: "Failed to retrieve transaction for " + req.params.txHash + ". It may not be present."});
@@ -20,7 +20,7 @@ router.get("/:txHash/receipt", (req, res) => {
     EthTransactionService.getTransactionReceipt(req.params.txHash, req.headers.provider).then((receipt) => {
         if (receipt) {
             console.log("Transaction Receipt: ", receipt);
-            res.status(200).json({Receipt: receipt});
+            res.status(200).json(receipt);
         } else {
             console.log("Failed to retrieve transaction for " + req.params.txHash + ". It may not be present.");
             res.status(500).json({error: "Failed to retrieve transaction for " + req.params.txHash + ". It may not be present."});
