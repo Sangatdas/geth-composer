@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import { Tabs, Tab, Paper, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 
-import axios from 'axios';
+import NodeInfo from "./nodeinfo";
+import Peers from './peers';
 
 const styles = (theme) => ({
     root: {
@@ -76,10 +77,10 @@ class Admin extends Component {
                     </Tabs>
                 </Paper>
                 <TabPanel value={this.state.value} index={0}>
-                    Node Info
+                    <NodeInfo />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
-                    Peers
+                    <Peers />
                 </TabPanel>
             </div>
         );
