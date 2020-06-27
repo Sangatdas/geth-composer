@@ -1,17 +1,10 @@
 import React, { Component } from "react";
 
 import { Container, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core';
 
 import PeerExpansionPanel from './peerExpansionPanel';
 
 import axios from 'axios';
-
-const styles = (theme) => ({
-    root: {
-      flexGrow: 1,
-    }
-});
 
 class Peers extends Component {
 
@@ -39,8 +32,6 @@ class Peers extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-
         return (
             <Container>
                 {this.state.peers.length>0?
@@ -55,4 +46,4 @@ class Peers extends Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(Peers);
+export default Peers;

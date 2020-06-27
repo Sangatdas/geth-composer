@@ -1,4 +1,5 @@
-import { SET_PROVIDER, LOAD_GETH_INFO, LOAD_ADMIN_INFO, LOAD_ACCOUNTS } from '../actions/types'; 
+import { LOAD_GETH_INFO, LOAD_ADMIN_INFO, LOAD_ACCOUNTS, LOAD_PEERS } from '../actions/loadTypes'; 
+import { SET_PROVIDER, ADD_ACCOUNT} from '../actions/setTypes';
 
 const initialState = {
     gethInfo: {},
@@ -7,6 +8,7 @@ const initialState = {
     eth: {},
     config: {},
     accounts: [],
+    peers: [],
     provider: ''
 }
 
@@ -20,20 +22,25 @@ export default function(state = initialState, action) {
         case LOAD_GETH_INFO:
             return {
                 ...state,
-                gethInfo: payload
+                gethInfo: action.payload
             };
         case LOAD_ADMIN_INFO:
             return {
                 ...state,
-                nodeInfo: payload,
-                ports: payload.ports,
-                eth: payload.protocols.eth,
-                config: payload.protocols.eth.config
+                nodeInfo: action.payload,
+                ports: action.payload.ports,
+                eth: action.payload.protocols.eth,
+                config: action.payload.protocols.eth.config
             }
         case LOAD_ACCOUNTS:
             return {
                 ...state,
-                accounts: payload
+                accounts: action.payload
+            }
+        case LOAD_PEERS:
+            return {
+                ...state,
+                peers: action.payload
             }
         case ADD_ACCOUNT:
             state.accounts.push(action.payload);

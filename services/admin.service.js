@@ -17,5 +17,5 @@ exports.getPeers = (provider) => {
 }
 
 function getAdmin(provider) {
-    return new Admin(provider);
+    return new Admin(new Web3.providers.HttpProvider(provider));
 }

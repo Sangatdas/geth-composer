@@ -2,5 +2,5 @@ import { combineReducers } from 'redux';
 import appReducer from './appReducer';
 
 export default combineReducers({
-    auth: appReducer    
+    app: appReducer    
 });

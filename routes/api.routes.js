@@ -16,6 +16,21 @@ router.get("/accounts/", (req, res) => {
     });
 });
 
+router.get("/account/:id", (req, res) => {
+    ApiService.getAccountData(req.params.id, req.headers.provider).then((response) => {
+        if(response) {
+            console.log(response);
+            res.status(200).json(response);
+        } else {
+            console.log(response);
+            res.status(400).json({error: "No accounts found."});
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+
 router.get("/admin/", (req, res) => {
     ApiService.getNodeInfo(req.headers.provider).then((response) => {
         if (response) {
