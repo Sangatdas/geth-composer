@@ -25,25 +25,15 @@ function TabPanel(props) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
+            component="div"
+            variant="body2"
         >
             {value === index && (
             <Box>
-                <Typography>{children}</Typography>
+                <Typography component={"p"} variant={"body2"}>{children}</Typography>
             </Box>
             )}
         </div>
-    );
-}
-
-function LinkTab(props) {
-    return (
-      <Tab
-        component="a"
-        onClick={(event) => {
-          event.preventDefault();
-        }}
-        {...props}
-      />
     );
 }
 
@@ -85,10 +75,10 @@ class NavTabs extends Component {
                         aria-label="nav tabs example"
                         centered
                     >
-                        <LinkTab label="Network" href='/network/' {...this.a11yProps(0)} />
-                        <LinkTab label="Admin" href='/admin/' {...this.a11yProps(1)} />
-                        <LinkTab label="Accounts" href='/accounts/' {...this.a11yProps(2)} />
-                        <LinkTab label="Transactions" href='/transactions/' {...this.a11yProps(3)} />
+                        <Tab label="Network" {...this.a11yProps(0)} />
+                        <Tab label="Admin" {...this.a11yProps(1)} />
+                        <Tab label="Accounts" {...this.a11yProps(2)} />
+                        <Tab label="Transactions" {...this.a11yProps(3)} />
                     </Tabs>
                 </AppBar>
                 <TabPanel value={this.state.value} index={0}>

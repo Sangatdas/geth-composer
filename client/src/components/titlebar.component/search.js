@@ -4,7 +4,10 @@ import { InputBase, Button, Toolbar } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { fade, withStyles } from '@material-ui/core/styles';
 
-import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { setProvider } from '../../actions/setActions';
 
 const styles = (theme) => ({
     root: {
@@ -58,7 +61,7 @@ class Search extends Component {
         super(props);
   
         this.state = {
-          tx: ''
+          provider: ''
         }
   
         this.handleSetProviderChange = this.handleSetProviderChange.bind(this);
@@ -68,23 +71,13 @@ class Search extends Component {
     handleSetProviderChange(e) {
         e.preventDefault();
         this.setState({
-          tx: e.target.value
+          provider: e.target.value
         })
     }
   
     handleSetProviderClick(e) {
         e.preventDefault();
-        axios.create({
-          baseURL: 'http://localhost:5000/eth/transaction/',
-          timeout: 5000,
-          headers: {'provider': 'http://localhost:8545'}
-        }).get(this.state.tx)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+        this.props.setProvider(this.state.provider);
     }
 
     render() {
@@ -114,4 +107,13 @@ class Search extends Component {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(Search);
+Search.propTypes = {
+  setProvider: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  provider: state.app.provider
+});
+
+
+export default connect(mapStateToProps, {setProvider})(withStyles(styles, { withTheme: true })(Search));

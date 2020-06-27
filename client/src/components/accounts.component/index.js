@@ -10,7 +10,8 @@ import Paper from '@material-ui/core/Paper';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -39,32 +40,6 @@ const styles = (theme) => ({
 
 class Accounts extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            accounts: []
-        }
-
-
-    }
-
-    componentDidMount() {
-        axios.create({
-            baseURL: 'http://localhost:5000/api/',
-            timeout: 5000,
-            headers: {'provider': 'http://localhost:8545'}
-          }).get('accounts')
-            .then((response) => {   
-              this.setState({
-                  accounts: response.data
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });        
-    }
-
     render() {
 
         const { classes } = this.props;
@@ -80,7 +55,7 @@ class Accounts extends Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {this.state.accounts.map((account) => (
+                    {this.props.accounts.map((account) => (
                     <StyledTableRow key={account.address}>
                         <StyledTableCell component="th" scope="row">
                         {account.address}
@@ -96,4 +71,12 @@ class Accounts extends Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(Accounts);
+Accounts.propTypes = {
+  accounts: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  accounts: state.app.accounts
+});
+
+export default connect(mapStateToProps, {})(withStyles(styles, {withTheme: true})(Accounts));

@@ -17,13 +17,13 @@ class NetwworkCard extends Component {
 
         return (
             <Card className={classes.root} variant="outlined" style={this.props.style}>
-                <Typography variant="h4" component="p">
+                <Typography variant="h4" component="div">
                     <b>{this.props.title}:</b>
                 </Typography>
-                <Typography variant="h5" component="p" style={{textAlign: 'center'}}>
+                <Typography variant="h5" component="div" style={{textAlign: 'center'}}>
                     {this.props.value}
                 </Typography><br/>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2" component="div">
                     Info: {this.props.info}
                 </Typography>
             </Card>

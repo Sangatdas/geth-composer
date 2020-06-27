@@ -8,7 +8,7 @@ exports.getAccountsInfo = async (provider) => {
     }
     await EthService.getAccounts(provider).then((accounts) => {
         accounts.forEach((account) => {
-            accountsInfoResponse.accounts.push(createAccountData(account, provider));
+            accountsInfoResponse.accounts.push(this.getAccountData(account, provider));
         });
         
     }).catch((err) => {
@@ -35,7 +35,7 @@ exports.getNodeInfo = async (provider) => {
     return nodeInfoResponse;
 }
 
-async function createAccountData(account, provider) {
+exports.getAccountData = async (account, provider) => {
     var acc = {}
     acc.address = account;
     await EthService.getBalance(account, provider).then((balance) => {
