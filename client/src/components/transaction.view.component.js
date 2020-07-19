@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
-import Search from '../commons/search';
+import Search from './commons/search';
 import { Paper, Typography } from '@material-ui/core';
+
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import axios from 'axios';
 
@@ -24,7 +27,7 @@ class Transaction extends Component {
         axios.create({
           baseURL: 'http://localhost:5000/eth/transaction/',
           timeout: 5000,
-          headers: {'provider': 'http://localhost:8545'}
+          headers: {'provider': this.props.provider}
         }).get(this.state.hash)
           .then((response) => {
             this.setState({
@@ -61,4 +64,12 @@ class Transaction extends Component {
 
 }
 
-export default Transaction;
+Transaction.propTypes = {
+    provider: PropTypes.string.isRequired
+}
+
+const mapStateToProps = state => ({
+    provider: state.app.provider
+});
+
+export default connect(mapStateToProps, {})(Transaction);

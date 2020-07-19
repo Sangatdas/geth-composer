@@ -20,8 +20,10 @@ exports.getTransactionCount = (addr, provider) => {
     return web3.eth.getTransactionCount(addr);
 }
 
-exports.sendTransaction = (txObject, provider) => {
+exports.sendTransaction = async (txObject, provider) => {
     const web3 = getWeb3(provider);
+    console.log(txObject);
+    await web3.eth.personal.unlockAccount(txObject.from, txObject.password);
     return web3.eth.sendTransaction(txObject);
 }
 

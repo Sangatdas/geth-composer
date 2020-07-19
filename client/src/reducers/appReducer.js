@@ -9,7 +9,7 @@ const initialState = {
     config: {},
     accounts: [],
     peers: [],
-    provider: ''
+    provider: localStorage.getItem("web3_provider")
 }
 
 export default function(state = initialState, action) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Search from '../commons/search';
+import Search from './commons/search';
 
 import axios from 'axios';
 import { Paper, Typography } from '@material-ui/core';

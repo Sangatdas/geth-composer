@@ -7,7 +7,8 @@ import { fade, withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { setProvider } from '../../actions/setActions';
+import { setProvider } from '../actions/setActions';
+import { loadGethInfo, loadAdminInfo, loadAccounts } from '../actions/loadActions';
 
 const styles = (theme) => ({
     root: {
@@ -61,7 +62,7 @@ class Search extends Component {
         super(props);
   
         this.state = {
-          provider: ''
+          provider: localStorage.getItem("web3_provider")
         }
   
         this.handleSetProviderChange = this.handleSetProviderChange.bind(this);
@@ -77,6 +78,9 @@ class Search extends Component {
   
     handleSetProviderClick(e) {
         e.preventDefault();
+        this.props.loadGethInfo(this.state.provider);
+        this.props.loadAdminInfo(this.state.provider);
+        this.props.loadAccounts(this.state.provider);
         this.props.setProvider(this.state.provider);
     }
 
@@ -97,8 +101,8 @@ class Search extends Component {
                         }}
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={this.handleSetProviderChange}
-                        value={this.state.tx}
-                        autoComplete="on"
+                        value={this.state.provider}
+                        autoComplete="off"
                     />
                 </div>
                 <Button variant="contained" color="secondary" onClick={this.handleSetProviderClick}>Set Provider</Button>
@@ -116,4 +120,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, {setProvider})(withStyles(styles, { withTheme: true })(Search));
+export default connect(mapStateToProps, {setProvider, loadGethInfo, loadAdminInfo, loadAccounts})(withStyles(styles, { withTheme: true })(Search));

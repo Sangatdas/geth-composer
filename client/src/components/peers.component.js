@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import { Container, Typography } from '@material-ui/core';
 
-import TransactionExpansionPanel from './TransactionExpansionPanel';
+import PeerExpansionPanel from './peer.component';
 
 import axios from 'axios';
 
-class PendingTransaction extends Component {
+class Peers extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            pendingTransactions: []
+            peers: []
         }
     }
 
     componentDidMount() {
         axios.create({
-            baseURL: 'http://localhost:5000/eth/',
+            baseURL: 'http://localhost:5000/admin/',
             timeout: 5000,
             headers: {'provider': 'http://localhost:8545'}
-          }).get('transaction')
+          }).get('peers')
             .then((response) => {
               this.setState({
-                  pendingTransactions: response.data.pendingTransactions
+                  peers: response.data
               });
             })
             .catch((err) => {
@@ -32,13 +32,13 @@ class PendingTransaction extends Component {
     }
 
     render() {
-        return(
+        return (
             <Container>
-                {this.state.pendingTransactions.length>0?
-                    this.state.pendingTransactions.map((transaction) => (
-                        <TransactionExpansionPanel details={transaction} title={transaction.hash}/>
+                {this.state.peers.length>0?
+                    this.state.peers.map((peer) => (
+                        <PeerExpansionPanel details={peer} title={peer.id}/>
                     )):<Typography variant="h2" align='center'>
-                            <p>No Pending Transactions</p>
+                            <p>No peers found</p>
                         </Typography>
                 }
             </Container>
@@ -46,4 +46,4 @@ class PendingTransaction extends Component {
     }
 }
 
-export default PendingTransaction;
+export default Peers;
