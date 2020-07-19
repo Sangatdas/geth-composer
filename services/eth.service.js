@@ -1,8 +1,9 @@
 const Web3 = require('web3');
 
-exports.getBalance = (accountId, provider) => {
+exports.getBalance = async (accountId, provider) => {
     const web3 = getWeb3(provider);
-    return web3.eth.getBalance(accountId);
+    var balance = await web3.eth.getBalance(accountId);
+    return Promise.resolve(web3.utils.fromWei(balance, "ether"));
 }
 
 exports.getAccounts = (provider) => {

@@ -64,6 +64,7 @@ router.get("/:addr/count/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+    console.log(req);
     EthTransactionService.sendTransaction(req.body, req.headers.provider).then((txHash) => {
         if (txHash) {
             console.log("Transaction Hash: ", txHash);

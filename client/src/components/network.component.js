@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import NetwworkCard from './networkInfoCard';
+import NetwworkCard from './network.info.component';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

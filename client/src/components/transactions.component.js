@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 
-import { Tabs, Tab, AppBar, Box, Typography } from '@material-ui/core';
+import { Tabs, Tab, Paper, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 
-import Accounts from '../accounts.component';
-import Network from '../network.component';
-import Transaction from '../transaction.component';
-import Admin from '../admin.component';
+import PendingTransaction from './transactions.pending.view.component';
+import TransactionReceipt from './transaction.receipt.view.component';
+import Transaction from './transaction.view.component';
+import CreateTransaction from './transaction.create.component';
 
 const styles = (theme) => ({
     root: {
       flexGrow: 1,
-      backgroundColor: theme.palette.background.paper,
-    },
+    }
 });
 
 function TabPanel(props) {
@@ -25,20 +24,17 @@ function TabPanel(props) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
-            component="div"
-            variant="body2"
         >
             {value === index && (
-            <Box>
-                <Typography component={"p"} variant={"body2"}>{children}</Typography>
+            <Box p={3}>
+                <Typography>{children}</Typography>
             </Box>
             )}
         </div>
     );
 }
 
-class NavTabs extends Component {
-
+class Transactions extends Component {
     constructor(props) {
         super(props);
 
@@ -66,36 +62,39 @@ class NavTabs extends Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root} >
-                <AppBar position="static" >
+            <div>
+                <Paper className={classes.root} position="static">
                     <Tabs
                         value={this.state.value}
                         onChange={this.handleChange}
                         variant="fullWidth"
                         aria-label="nav tabs example"
+                        textColor="primary"
                         centered
+                        style={{margin:'0'}}
                     >
-                        <Tab label="Network" {...this.a11yProps(0)} />
-                        <Tab label="Admin" {...this.a11yProps(1)} />
-                        <Tab label="Accounts" {...this.a11yProps(2)} />
-                        <Tab label="Transactions" {...this.a11yProps(3)} />
+                        <Tab label="Pending Transactions" {...this.a11yProps(0)} />
+                        <Tab label="Transaction Receipt" {...this.a11yProps(1)} />
+                        <Tab label="Transaction Info" {...this.a11yProps(2)} />
+                        <Tab label="Send Transaction" {...this.a11yProps(3)} />
                     </Tabs>
-                </AppBar>
+                </Paper>
                 <TabPanel value={this.state.value} index={0}>
-                    <Network />
+                    <PendingTransaction />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
-                    <Admin />
+                    <TransactionReceipt />
                 </TabPanel>
                 <TabPanel value={this.state.value} index={2}>
-                    <Accounts />
-                </TabPanel>
-                <TabPanel value={this.state.value} index={3}>
                     <Transaction />
                 </TabPanel>
-             </div>
+                <TabPanel value={this.state.value} index={3}>
+                    <CreateTransaction />
+                </TabPanel>
+            </div>
         );
     }
+
 }
 
-export default withStyles(styles, {withTheme: true})(NavTabs);
+export default withStyles(styles, {withTheme: true})(Transactions);

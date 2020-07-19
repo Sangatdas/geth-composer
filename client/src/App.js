@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { Typography } from '@material-ui/core';
 
-import TitleBar from './components/titlebar.component';
-import NavTabs from './components/navtabs.component';
+import MenuBar from './components/menubar.component';
+import Network from './components/network.component';
+import Account from './components/accounts.component';
+import Admin from './components/admin.component';
+import Transaction from './components/transactions.component';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -24,15 +26,21 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-          <TitleBar />
-          {this.props.provider?
-            <NavTabs />:
+      <Router>
+          <MenuBar />
+          {this.props.provider?(
+            <div>
+              <Route exact path="/"><Network/></Route>
+              <Route path="/accounts"><Account/></Route>
+              <Route path="/admin"><Admin/></Route>
+              <Route path="/transactions"><Transaction/></Route>
+            </div>
+          ):(  
             <Typography variant="h2" align='center'>
               <p>No provider set</p>
             </Typography>
-          }
-      </div>
+          )}
+      </Router>
     );  
   }
 }

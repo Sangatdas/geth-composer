@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import { Tabs, Tab, Paper, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
 
-import NodeInfo from "./nodeinfo";
-import Peers from './peers';
+import NodeInfo from "./nodeinfo.component";
+import Peers from './peers.component';
 
 const styles = (theme) => ({
     root: {
