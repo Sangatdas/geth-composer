@@ -7,18 +7,8 @@ import { List, ListItem, ListItemText, ListItemIcon, ListSubheader } from '@mate
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import { withStyles } from '@material-ui/core/styles';
-
 import axios from 'axios';
 
-const styles = (theme) => ({
-    root: {
-        width: '100%',
-    },
-    listItem: {
-        flexGrow: 1
-    }
-});
 
 class PendingTransaction extends Component {
 
@@ -46,7 +36,6 @@ class PendingTransaction extends Component {
     }
 
     render() {
-        const { classes } = this.props;
 
         return(
             <Container>
@@ -60,7 +49,7 @@ class PendingTransaction extends Component {
                                 <ExpansionPanelDetails>
                                     <List>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="From"
@@ -68,7 +57,7 @@ class PendingTransaction extends Component {
                                             />
                                         </ListItem>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="To"
@@ -76,7 +65,7 @@ class PendingTransaction extends Component {
                                             />
                                         </ListItem>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="Nonce"
@@ -84,7 +73,7 @@ class PendingTransaction extends Component {
                                             />
                                         </ListItem>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="Gas"
@@ -92,7 +81,7 @@ class PendingTransaction extends Component {
                                             />
                                         </ListItem>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="Gas Price"
@@ -100,7 +89,7 @@ class PendingTransaction extends Component {
                                             />
                                         </ListItem>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="Value"
@@ -108,7 +97,7 @@ class PendingTransaction extends Component {
                                             />
                                         </ListItem>
                                        
-                                        <ListItem className={classes.listItem}>
+                                        <ListItem>
                                             <ListItemIcon><SettingsIcon/></ListItemIcon>
                                             <ListItemText 
                                                 primary="Input"
@@ -129,4 +118,4 @@ class PendingTransaction extends Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(PendingTransaction);
+export default PendingTransaction;

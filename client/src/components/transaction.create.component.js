@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Container, TextField, Button } from '@material-ui/core';
+import { Container, TextField, Button, Card, CardActions, CardContent, Typography, Divider } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
@@ -43,9 +43,6 @@ class CreateTransaction extends Component {
 
     handleOnSubmit(e) {
         e.preventDefault();
-        var pwd = prompt("Enter password of account");
-        this.setState({password: pwd});
-        console.log(this.state);
         axios
             .post('http://localhost:5000/eth/transaction/', this.state)
             .then((response) => {
@@ -66,17 +63,27 @@ class CreateTransaction extends Component {
 
         return (
             <Container>
-                <form onSubmit={this.handleOnSubmit}>
-                    <TextField id="from" label="From Address" fullWidth className={ classes.input } onChange={this.handleOnChange} />
-                    <TextField id="to" label="To Address" fullWidth className={ classes.input } onChange={this.handleOnChange} />
-                    <TextField id="value" label="Value" fullWidth className={ classes.input } onChange={this.handleOnChange} />
-                    <TextField id="gas" label="Gas" fullWidth className={ classes.input } onChange={this.handleOnChange} />
-                    <TextField id="gasprice" label="Gas Price" fullWidth className={ classes.input } onChange={this.handleOnChange} />
-                    <TextField id="data" label="Data" fullWidth className={ classes.input } onChange={this.handleOnChange} />
-                    <TextField id="nonce" label="Nonce" fullWidth className={ classes.input }  onChange={this.handleOnChange} />
-                    <TextField id="password" type="password" label="Nonce" fullWidth className={ classes.input }  onChange={this.handleOnChange} />
-                    <Button type="submit" variant="contained" color="primary">Send Transaction</Button>
-                </form>
+                <Card variant="outlined">
+                    <Typography variant="h6" style={{margin:"5px"}}>
+                        Create Transaction
+                    </Typography>
+                    <Divider/>
+                    <form onSubmit={this.handleOnSubmit}>
+                        <CardContent>
+                            <TextField id="from" label="From Address" fullWidth className={ classes.input } onChange={this.handleOnChange} />
+                            <TextField id="to" label="To Address" fullWidth className={ classes.input } onChange={this.handleOnChange} />
+                            <TextField id="value" label="Value" fullWidth className={ classes.input } onChange={this.handleOnChange} />
+                            <TextField id="gas" label="Gas" fullWidth className={ classes.input } onChange={this.handleOnChange} />
+                            <TextField id="gasprice" label="Gas Price" fullWidth className={ classes.input } onChange={this.handleOnChange} />
+                            <TextField id="data" label="Data" fullWidth className={ classes.input } onChange={this.handleOnChange} />
+                            <TextField id="nonce" label="Nonce" fullWidth className={ classes.input }  onChange={this.handleOnChange} />
+                            <TextField id="password" type="password" label="Password" fullWidth className={ classes.input }  onChange={this.handleOnChange} />
+                        </CardContent>
+                        <CardActions>
+                            <Button type="submit" variant="contained" color="primary">Send Transaction</Button>
+                        </CardActions>
+                    </form>
+                </Card>
             </Container>
         );
     }
