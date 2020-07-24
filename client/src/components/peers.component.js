@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import { Container, Typography } from '@material-ui/core';
+import { Container, Typography, Toolbar, Button } from '@material-ui/core';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core/';
-import { List, ListItem, ListItemText, ListItemIcon, ListSubheader } from '@material-ui/core';
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -38,7 +38,13 @@ class Peers extends Component {
         return (
             <Container>
                 {this.state.peers.length>0?
-                    <List subheader={<ListSubheader>Peers</ListSubheader>}>
+                    <List subheader={
+                        <Toolbar component="div">
+                            <div style={{flexGrow: 1}}><h1>Peers</h1></div>
+                            <Button variant="text" color="primary" onClick={this.addAccount}>Add Account</Button>
+                        </Toolbar>  
+                    }
+                    >
                     {this.state.peers.map((peer) => (
                         <ExpansionPanel>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
@@ -49,7 +55,7 @@ class Peers extends Component {
                                    
                                     <ListItem>
                                         <ListItemIcon><SettingsIcon/></ListItemIcon>
-                                        <ListItemText 
+                                        <ListItemText style={{wordBreak: 'break-word'}}
                                             primary="Enode"
                                             secondary={peer.enode}
                                         />
@@ -107,9 +113,9 @@ class Peers extends Component {
                         </ExpansionPanel>
                     ))}
                 </List>
-                :(<Typography variant="h2" align='center'>
-                        <p>No Pending Transactions</p>
-                    </Typography>)                }
+                :(<Typography variant="h3" align='center'>
+                        <p>No Peers added in network</p>
+                    </Typography>)}
             </Container>
         );
     }
