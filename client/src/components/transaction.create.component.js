@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Container, TextField, Button, Card, CardActions, CardContent, Typography, Divider } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
+import Swal from 'sweetalert2';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -27,7 +29,6 @@ class CreateTransaction extends Component {
             data: null,
             nonce: null,
             password: '',
-            tx: {},
             // denomination: 'Wei'
         }
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -43,18 +44,41 @@ class CreateTransaction extends Component {
 
     handleOnSubmit(e) {
         e.preventDefault();
-        axios
-            .post('http://localhost:5000/eth/transaction/', this.state)
-            .then((response) => {
-                this.setState({
-                    tx: response.data,
-                    searchClicked: true
+        Swal.fire({
+            title: "Confirm Transaction",
+            text: "Do you confirm?",
+            icon: "question",
+            confirmButtonText: 'Confirm',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: (addr) => {
+                return axios
+                .post('http://localhost:5000/eth/transaction/', this.state, {
+                    headers: {
+                        provider: localStorage.getItem("web3_provider"),
+                    }
+                })
+                .then((response) => {
+                    return response;
+                })
+                .catch((err) => {
+                    Swal.showValidationMessage(
+                        `Failed to submit transaction.`
+                    )                    
                 });
-                alert("Transaction Hash: " + this.state.tx.transactionHash + "\nBlock Hash: " + this.state.tx.blockHash);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        })
+        .then(result => {
+            if(result.dismiss !== "cancel" && result.dismiss !== "backdrop") {
+                Swal.fire({
+                  title: 'Transaction submitted successfully',
+                  text: `Transaction: ${result.value.data.TxHash.transactionHash}`,
+                  icon: 'success'
+                })
+            }    
+        })
     }
     
     render() {
