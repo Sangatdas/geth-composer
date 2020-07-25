@@ -4,6 +4,8 @@ import { Container, Typography, Toolbar, Button } from '@material-ui/core';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core/';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 
+import Swal from 'sweetalert2';
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SettingsIcon from '@material-ui/icons/Settings';
 
@@ -16,13 +18,14 @@ class Peers extends Component {
         this.state = {
             peers: []
         }
+        this.addPeer = this.addPeer.bind(this);
     }
 
     componentDidMount() {
         axios.create({
             baseURL: 'http://localhost:5000/admin/',
             timeout: 5000,
-            headers: {'provider': 'http://localhost:8545'}
+            headers: {'provider': localStorage.getItem("web3_provider")}
           }).get('peers')
             .then((response) => {
               this.setState({
@@ -34,6 +37,44 @@ class Peers extends Component {
             });
     }
 
+    addPeer() {
+        Swal.fire({
+            title: 'Add Peer',
+            input: 'textarea',
+            inputPlaceHolder: 'Enter enode',
+            showCancelButton: true,
+            confirmButtonText: 'Add',
+            showLoaderOnConfirm: true,
+            preConfirm: (enode) => {   
+              return axios.post(`http://localhost:5000/admin/addPeer/`, {}, {
+                    headers: {
+                        provider: localStorage.getItem("web3_provider"),
+                        enode: enode
+                    }
+                })
+                .then(response => {
+                  if (!response.data.msg) {
+                    throw new Error(response)
+                  }
+                  return response;
+                })
+                .catch(error => {
+                  Swal.showValidationMessage(
+                    `Failed to add peer with enode: ${enode}`
+                  )
+                })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if(result.dismiss !== "cancel" && result.dismiss !== "backdrop") {
+                Swal.fire({
+                  title: 'Added peer successfully',
+                  icon: 'success'
+                })
+              }
+            })
+    }
+
     render() {
         return (
             <Container>
@@ -41,7 +82,7 @@ class Peers extends Component {
                     <List subheader={
                         <Toolbar component="div">
                             <div style={{flexGrow: 1}}><h1>Peers</h1></div>
-                            <Button variant="text" color="primary" onClick={this.addAccount}>Add Account</Button>
+                            <Button variant="text" color="primary" onClick={this.addPeer}>Add Peer</Button>
                         </Toolbar>  
                     }
                     >
@@ -115,6 +156,7 @@ class Peers extends Component {
                 </List>
                 :(<Typography variant="h3" align='center'>
                         <p>No Peers added in network</p>
+                        <Button variant="contained" color="primary" size="large" onClick={this.addPeer}>Add Peer</Button>
                     </Typography>)}
             </Container>
         );

@@ -45,11 +45,16 @@ class Accounts extends Component {
               throw new Error("Please enter the same password in both input boxes.")
             }
 
-          return axios.post(`http://localhost:5000/personal/newAccount/`, {pwd: pwd})
+          return axios.post(`http://localhost:5000/personal/newAccount/`, {pwd: pwd}, {
+              headers: {
+                  provider: localStorage.getItem("web3_provider"),
+              }
+            })
             .then(response => {
               if (!response.data.newAccountAddress) {
                 throw new Error(response)
               }
+              this.props.loadAccounts(localStorage.getItem("web3_provider"));
               return response;
             })
             .catch(error => {
@@ -93,7 +98,11 @@ class Accounts extends Component {
             }
             var acc = document.getElementById("addr").value;
 
-          return axios.post(`http://localhost:5000/personal/unlockAccount/${acc}`, {pwd: pwd})
+          return axios.post(`http://localhost:5000/personal/unlockAccount/${acc}`, {pwd: pwd}, {
+              headers: {
+                  provider: localStorage.getItem("web3_provider"),
+              }
+            })
             .then(response => {
               if (!response.data.ok) {
                 throw new Error(response)
@@ -135,7 +144,11 @@ class Accounts extends Component {
         confirmButtonText: 'Lock',
         showLoaderOnConfirm: true,
         preConfirm: (addr) => {
-          return axios.post(`http://localhost:5000/personal/lockAccount/${addr}`)
+          return axios.post(`http://localhost:5000/personal/lockAccount/${addr}`, {}, {
+              headers: {
+                  provider: localStorage.getItem("web3_provider"),
+              }
+            })
             .then(response => {
               if (!response.data.ok) {
                 throw new Error(response)
@@ -182,7 +195,7 @@ class Accounts extends Component {
                     <ListItemIcon><AccountBalanceWalletIcon/></ListItemIcon>
                     <ListItemText 
                       primary={<b>{account.address}</b>}
-                      secondary={"Balance: " + account.balance + "  |  Transactions Count:" + account.count}
+                      secondary={"Balance: " + account.balance + " ETH  |  Transactions Count:" + account.count}
                     />
                 </ListItem>
               ))}
@@ -194,7 +207,8 @@ class Accounts extends Component {
 }
 
 Accounts.propTypes = {
-  accounts: PropTypes.object.isRequired
+  accounts: PropTypes.object.isRequired,
+  loadAccounts: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
